@@ -19,6 +19,7 @@ describe "Workspaces" do
       page.should have_content('All Activity')
       Workspace.find_by_name("New Workspace").should_not be_nil
     end
+
   end
 
   describe "Edit a workspace" do
@@ -68,4 +69,53 @@ describe "Workspaces" do
       Workspace.find_by_id(workspace.id).should be_nil
     end
   end
+
+  describe "Archive a worksapce" do
+    it "archives a workspace" do
+      visit("#/workspaces/")
+      click_button "Create Workspace"
+      within_modal do
+        fill_in 'name', :with => "abc"
+        click_button "Create Workspace"
+      end
+      click_link "Dismiss the workspace quick start guide"
+      page.should have_content('All Activity')
+      click_link "Edit Workspace"
+      within_modal do
+        choose "workspace_archived"
+        click_button "Save Changes"
+      end
+      page.should_not have_content("Add a note")
+      page.should_not have_content("Add an insight")
+      visit("#/workspaces/")
+      page.should_not have_content("abc")
+    end
+  end
+
+  describe "Edit the description on the workspace" do
+    it "adds description to the workspace" do
+      visit("#/workspaces/")
+      click_button "Create Workspace"
+      within_modal do
+        fill_in 'name', :with => "abc"
+        click_button "Create Workspace"
+      end
+      click_link "Dismiss the workspace quick start guide"
+      page.should have_content('All Activity')
+      click_link "Edit Workspace"
+      within_modal do
+        set_cleditor_value("summary", "This is adding a description to the workspace")
+        click_button "Save Changes"
+      end
+      page.should have_content("This is adding a description to the workspace")
+      click_link "Edit Workspace"
+      within_modal do
+        set_cleditor_value("summary", "This is edited description")
+        click_button "Save Changes"
+      end
+      page.should have_content("This is edited description")
+
+    end
+  end
+
 end

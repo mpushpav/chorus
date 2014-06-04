@@ -96,5 +96,13 @@ describe "Users" do
         page.should_not have_content("#{user.first_name} #{user.last_name}")
       end
     end
+
+    it "does not let a user delete himself" do
+      visit("#/users")
+      within ".content .list" do
+        click_link("#{admin.first_name} #{admin.last_name}")
+      end
+      page.should_not have_link("Delete User")
+    end
   end
 end

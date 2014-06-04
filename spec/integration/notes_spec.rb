@@ -98,5 +98,55 @@ describe "Notes" do
       end
     end
   end
+
+  describe "editing notes" do
+    it "edits note" do
+      visit("#/workspaces/")
+      click_button "Create Workspace"
+      within_modal do
+        fill_in 'name', :with => "note-editing"
+        click_button "Create Workspace"
+      end
+      click_link "Dismiss the workspace quick start guide"
+      page.should have_content('All Activity')
+      click_link "Add a note"
+      within_modal do
+        set_cleditor_value("body", "this will edit a note")
+        click_button "Add Note"
+      end
+      page.should have_content("this will edit a note")
+      find("li", :text => "this will edit a note").click_link "Edit"
+      within_modal do
+        set_cleditor_value("body", "edited note")
+        click_button "Save Changes"
+      end
+      page.should have_content("edited note")
+      page.should_not have_content("this will edit a note")
+    end
+  end
+
+  describe "deleting a note" do
+    it "deletes a note" do
+      visit("#/workspaces/")
+      click_button "Create Workspace"
+      within_modal do
+        fill_in 'name', :with => "note-deletion"
+        click_button "Create Workspace"
+      end
+      click_link "Dismiss the workspace quick start guide"
+      page.should have_content('All Activity')
+      click_link "Add a note"
+      within_modal do
+        set_cleditor_value("body", "this will delete a note")
+        click_button "Add Note"
+      end
+      page.should have_content("this will delete a note")
+      find("li", :text => "this will delete a note").click_link "Delete"
+      within_modal do
+        click_button "Delete Note"
+      end
+      page.should_not have_content("this will delete a note")
+    end
+  end
 end
 
