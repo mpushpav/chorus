@@ -6,6 +6,27 @@ describe "Workspaces" do
   end
   let(:workspace) { workspaces(:public) }
 
+  describe "creates a milestone" do
+    it "creates a milestone" do
+      visit('#/workspaces')
+      click_button "Create Workspace"
+      within_modal do
+        fill_in 'name', :with => "mile-stone"
+        click_button "Create Workspace"
+      end
+      click_link "Dismiss the workspace quick start guide"
+      page.should have_content('All Activity')
+      Workspace.find_by_name("mile-stone").should_not be_nil
+      click_link "Milestones"
+      click_button "Create"
+      within_modal do
+        find('.name').set("milestone1")
+        click_button "Create"
+      end
+      page.should have_content("milestone1")
+    end
+  end
+
   describe "finishes a milestone" do
     it "finishes a milestone" do
       visit("#/workspaces/#{workspace.id}")
