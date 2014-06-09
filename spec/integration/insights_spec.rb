@@ -156,12 +156,8 @@ describe "Insight Operations" do
     within_modal do
       click_button "Unpublish Insight"
     end
-    click_link "Home"
-    within ".activity_list_header" do
-      click_link "Insights"
-      find(".title h1").should have_content("Insights")
-    end
-    page.should_not have_content"unpublishes insight to the insight page"
+    click_link "Summary"
+    page.should_not have_link "Unpublish"
   end
 
 end

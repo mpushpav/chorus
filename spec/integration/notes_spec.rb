@@ -70,7 +70,6 @@ describe "Notes" do
         set_cleditor_value("body", "Note on a workfile")
         click_button "Add Note"
       end
-
       workfile.events.last.body.should == "Note on a workfile"
     end
   end
