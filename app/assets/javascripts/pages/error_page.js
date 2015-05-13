@@ -4,7 +4,7 @@ chorus.pages.Error = chorus.pages.Bare.extend({
 
     events: {
         "click .link_home": "navigateToHome",
-        "click .link_backwards": "navigateBack"
+        // "click .link_backwards": "navigateBack"
     },
 
     subviews: {
@@ -18,6 +18,8 @@ chorus.pages.Error = chorus.pages.Bare.extend({
     navigateToHome: function() {
         chorus.router.navigate("#");
     },
+    
+    //TODO: find a way to fix the navigate back
     navigateBack: function() {
         history.go(-1);
     },
